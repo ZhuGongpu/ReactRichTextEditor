@@ -6,10 +6,10 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = require('./webpack.config.base.js')({
     entry: { app: ['babel-polyfill', "./src/index.js"] },
-    output: {        
-        publicPath: '/'        
+    output: {
+        publicPath: '/'
     },
-    scssLoader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css-loader', 'postcss-loader', 'sass-loader'] }),
+    scssLoader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]', 'postcss-loader', 'sass-loader'] }),
     plugins: [
         // Merge all duplicate modules
         new webpack.optimize.DedupePlugin(),

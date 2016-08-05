@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {createSelector} from "reselect";
-import {editorContentChange} from "./actions";
-import {selectEditorContent} from "./selectors";
-import WangEditor from "components/WangEditor";
+import {editorContentChange, togglePlaceholder} from "./actions";
+import {selectEditorContent, selectShouldShowPlaceholder} from "./selectors";
+import RichTextEditor from "components/WangEditor";
 
 export class Editor extends React.Component {
 
@@ -11,27 +11,27 @@ export class Editor extends React.Component {
         //TODO: 异步加载token
         const uploadToken = "VDWt42uEpY7Q4ED4ZtePI_2XrD1WHwlbLhihPvei:HHxM9i_8JK1F-h_XYKfaYkgFRxE=:eyJzY29wZSI6ImRvZG8taW1hZ2VzIiwiZGVhZGxpbmUiOjE0Njg0OTU0MjF9";
 
-        const {content, onChange} = this.props;
-        const previewContent = content
-            ? content.html()
-            : null;
-        console.log("Preview: %O", previewContent); //TODO: ERROR 刷新不及时
+        const {content, showPlaceholder, onChange, togglePlaceholder} = this.props;
         return (
             <div>
-                <WangEditor uploadToken={uploadToken} onChange={onChange.bind(this)} content={content}/>
+                <RichTextEditor uploadToken={uploadToken}
+                  onChange={onChange.bind(this)}
+                  showPlaceholder={showPlaceholder}
+                  togglePlaceholder={togglePlaceholder}/>
                 <p>Preview:</p>
                 <div dangerouslySetInnerHTML={{
-                    __html: previewContent
+                    __html: content
                 }}></div>
             </div>
         );
     }
 }
 
-const mapStateToProps = createSelector(selectEditorContent(), content => ({content}));
+const mapStateToProps = createSelector(selectEditorContent(), selectShouldShowPlaceholder(), (content, showPlaceholder) => ({content, showPlaceholder}));
 function mapDispatchToProps(dispatch) {
     return {
-        onChange: (content) => dispatch(editorContentChange(content))
+        onChange: (content) => dispatch(editorContentChange(content)),
+        togglePlaceholder: (show) => dispatch(togglePlaceholder(show))
     };
 }
 

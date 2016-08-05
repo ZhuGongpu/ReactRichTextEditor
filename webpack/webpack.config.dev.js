@@ -27,5 +27,5 @@ module.exports = require('./webpack.config.base.js')({
         })
     ],
     babelQueryPresets: ['react-hmre'],
-    scssLoader: 'style-loader!css-loader!sass-loader!postcss-loader'
+    scssLoader: 'style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]!postcss-loader!sass-loader?sourceMap'
 });

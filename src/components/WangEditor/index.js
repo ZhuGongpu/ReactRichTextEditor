@@ -1,4 +1,5 @@
 import React, {PropTypes} from "react";
+import CSSModules from 'react-css-modules';
 import Editor from "wangeditor";
 import styles from "./index.scss";
 
@@ -37,7 +38,7 @@ class RichTextEditor extends React.Component {
             '|',
             'link',
             'unlink',
-            'table',
+            // 'table',
             // 'emotion',
             // '|',
             'img',
@@ -78,6 +79,13 @@ class RichTextEditor extends React.Component {
         };
 
         this.editor.create();
+        this.editor.$txt.focus(() => {
+            this.props.togglePlaceholder(this.shouldShowPlaceholder());
+            console.log("$txt focus");
+        }).click(() => {
+            this.props.togglePlaceholder(this.shouldShowPlaceholder());
+            console.log("$txt click");
+        })
     }
 
     uuid() {
@@ -91,16 +99,24 @@ class RichTextEditor extends React.Component {
     }
 
     onChange() {
+        this.props.togglePlaceholder(this.shouldShowPlaceholder());
         if (this.props.onChange) {
             this.props.onChange(this.editor.$txt);
         }
     }
 
+    shouldShowPlaceholder() {
+        return !(this.editor && this.editor.$txt && this.editor.$txt.formatText().length > 0)
+    }
+
     render() {
         return (
-            <div className={styles.editor}>
-                <div ref='editor'>
-                    {this.props.placeholder}
+            <div styleName="editor-container">
+                <div ref='editor' styleName="editor">
+                    {
+                      /*this.props.showPlaceholder
+                        ? this.props.placeholder
+                        : null*/}
                 </div>
             </div>
         );
@@ -110,12 +126,15 @@ class RichTextEditor extends React.Component {
 RichTextEditor.propTypes = {
     uploadToken: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.node.isRequired
+    togglePlaceholder: PropTypes.func.isRequired,
+    placeholder: PropTypes.node,
+    showPlaceholder: PropTypes.bool
 };
 
 RichTextEditor.defaultProps = {
     uploadToken: "",
-    placeholder: <p>请输入内容...</p>
+    // showPlaceholder: true,
+    // placeholder: <div styleName='placeholder'>请输入内容...</div>
 };
 
-export default RichTextEditor;
+export default CSSModules(RichTextEditor, styles);
