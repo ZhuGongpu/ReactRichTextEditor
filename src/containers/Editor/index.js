@@ -9,7 +9,7 @@ export class Editor extends React.Component {
 
     render() {
         //TODO: 异步加载token
-        const uploadToken = "VDWt42uEpY7Q4ED4ZtePI_2XrD1WHwlbLhihPvei:HHxM9i_8JK1F-h_XYKfaYkgFRxE=:eyJzY29wZSI6ImRvZG8taW1hZ2VzIiwiZGVhZGxpbmUiOjE0Njg0OTU0MjF9";
+        const uploadToken = "VDWt42uEpY7Q4ED4ZtePI_2XrD1WHwlbLhihPvei:Z2meE5hfqfiH79FOOxfR_e5dZvI=:eyJzY29wZSI6ImRvZG8taW1hZ2VzIiwiZGVhZGxpbmUiOjE0NzEyNTQ0MzF9";
 
         const {content, showPlaceholder, onChange, togglePlaceholder} = this.props;
         return (
